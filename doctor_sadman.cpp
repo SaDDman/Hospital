@@ -13,7 +13,7 @@
 #include<string.h>
 #include<deque>
 using namespace std;
-#include"public.h"
+#include"person.h"
 using namespace std;
 
 class doctor:public person
@@ -24,24 +24,7 @@ public:
 
 doctor dr[100];
 int number_of_doctor=0;      //gobal declaretion of total_doctor as we need everytime
- 
-void read_doctor()           //reading from doctor.txt file. *** Mendatory for saving the info
-{
-    ifstream di("text/doctor.txt");       //open file in read mode
-    int i=0;
-    string ch;
-    while(getline(di,dr[i].id))
-    {
-        getline(di,dr[i].name);
-        getline(di,dr[i].degree);
-        getline(di,dr[i].college);
-        getline(di,dr[i].mobile_no);
-        i++;
-        getline(di,ch);
-        // cin.ignore();
-    }
-    number_of_doctor=i;          //total number of doctor is equal to i
-}
+
 
 
 void show_doctor_list()           //presenting the doctor list in console
@@ -63,36 +46,6 @@ void show_doctor_list()           //presenting the doctor list in console
     }
 }
  
-
-
-
- void delete_doctor()         //deleting a person. We take the ID of the person and rewrite the txt file without that specific ID person
-{
-    read_doctor();
-    string del_id;
-    cout<<"\nDELTETING DOCTOR DETAILS\n";
-    cout<<"------------------------\n";
-    cout<<"ID          : ";
-    getline(cin,del_id);            //get the ID of the person who we want to delete
- 
-    ofstream doo("doctor.txt");       //opening file in write mode
-    int i =0;
-    while(i<number_of_doctor)
-    {
-        if(del_id!=dr[i].id)       //if not the delete person ID then write his details
-        {
-            doo<<dr[i].id<<endl;
-            doo<<dr[i].name<<endl;
-            doo<<dr[i].mobile_no<<endl;
-            doo<<dr[i].blood_group<<endl;
-            doo<<"\n";
-        }
-        i++;            //***** KEEP THIS INCREAMENT OUTSIDE OF "if condition"   *****
-    }
-    number_of_doctor--;      //total doctor number reduce by one as one doctor is deleted
-    doo.close();         //write mode file close
-}
-
 
 
 void add_doctor()        //adding new doctor.
@@ -117,15 +70,17 @@ void add_doctor()        //adding new doctor.
     int i =0;
     dr[number_of_doctor].id = new_doctor.id;             //setting new_doctor data in array varible 
     dr[number_of_doctor].name = new_doctor.name;
+    dr[number_of_doctor].degree = new_doctor.degree;
+    dr[number_of_doctor].college = new_doctor.college;
     dr[number_of_doctor].mobile_no = new_doctor.mobile_no;
-    dr[number_of_doctor].blood_group = new_doctor.blood_group;
     number_of_doctor++;              //total doctor number increase by one
     while(i<number_of_doctor)        //rewriting doctor data again in txt file.   ** BE AWARE WITH THE VAUE OF i
     {
         doo<<dr[i].id<<endl;
         doo<<dr[i].name<<endl;
+        doo<<dr[i].degree<<endl;
+        doo<<dr[i].college<<endl;
         doo<<dr[i].mobile_no<<endl;
-        doo<<dr[i].blood_group<<endl;
         i++;
         doo<<"\n";
     }
@@ -138,5 +93,7 @@ void add_doctor()        //adding new doctor.
 
 int main()
 {
-    read_doctor();
+    show_doctor_list();
+    add_doctor();
+    show_doctor_list();
 }
